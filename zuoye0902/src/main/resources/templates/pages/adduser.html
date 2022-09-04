@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>用户注册</h1>
+<form th:action="@{/save}" method="get">
+    <tr>
+        <td>姓名</td><td><input type="text" name="wname" ></td>
+    </tr>
+    <tr>
+        <td>性别</td><td><input type="radio" name="wsex" value="男">男<input type="radio" name="sex" value="女">女</td>
+    </tr>
+    <tr>
+        <td>电话</td><td><input type="text" name="wtel"></td>
+    </tr>
+    <tr>
+        <td>部门</td>
+        <td>
+            <select name="deptid" id="dname">
+                <option value=0>所有部门</option>
+                <option th:each="department:${departments}" th:value="${department.deptid}">
+                    [[${department.dname}]]</option>
+            </select>
+        </td>
+    </tr>
+    <button id="save">保存</button><button >重置</button>
+</form>
+
+</body>
+<script>
+</script>
+</html>

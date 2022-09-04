@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="/js/tools.js"></script>
+</head>
+<body>
+<div id="left">
+    <h1>用户菜单</h1>
+    <table>
+        <tr th:each="department: ${departments}">
+            <td><a th:href="@{'/getdeptno?deptid='+${department.deptid}}">[[${department.dname}]]</a> </td>
+        </tr>
+    </table>
+</div>
+<div id="right">
+    <h1>用户列表</h1>
+    <input type="checkbox" id="quanxuan" >全选
+    <button id="add">添加</button>
+    <button id="update" onclick="Update()">修改</button>
+    <button id="delect" onclick="Delect()">删除</button>
+    <table>
+        <tr>
+            <td>选择</td>
+            <td>编号</td>
+            <td>姓名</td>
+            <td>性别</td>
+            <td>电话</td>
+        </tr>
+        <tr th:each="worker: ${workers}">
+            <td><input type="checkbox" name="id[]" value="" id="id[]" th:value="${worker.wid}"></td>
+            <td>[[${worker.wid}]]</td>
+            <td>[[${worker.wname}]]</td>
+            <td>[[${worker.wsex}]]</td>
+            <td>[[${worker.wtel}]]</td>
+        </tr>
+    </table>
+</div>
+</body>
+<style>
+    #left{
+        float: left;
+    }
+    #right{
+        float: left;
+    }
+
+</style>
+<script>
+    $("#add").click(function(){
+        location.href="/saveclick";
+    })
+    $("#quanxuan").click(function (){
+        $("input[name='id[]']").prop("checked",this.checked)
+    })
+    function Update(){
+        var Checkbox = false;
+        $("input[name='id[]']").each(function() {
+            if (this.checked == true) {
+                Checkbox = true;
+            }
+        });
+        if (Checkbox) {
+                $("input[name='id[]']").each(function() {
+                    if (this.checked == true) {
+                        // checkedID += this.value + ",";
+                        window.location.replace("/getworker?wid="+this.value);
+                    }
+                });
+            } else {
+            alert("请选择您要修改的内容!");
+            return false;
+        }
+    }
+    function Delect() {
+        var Checkbox = false;
+        $("input[name='id[]']").each(function() {
+            if (this.checked == true) {
+                Checkbox = true;
+            }
+        });
+        if (Checkbox) {
+            var t = confirm("您确认要删除选中的内容吗？");
+            if (t == false) {
+                return false;
+            } else {
+                var checkedID="";
+                $("input[name='id[]']").each(function() {
+                    if (this.checked == true) {
+                        // checkedID += this.value + ",";
+                        window.location.replace("/del?wid="+this.value);
+                    }
+                });
+
+            }
+        } else {
+            alert("请选择您要删除的内容!");
+            return false;
+        }
+    }
+</script>
+</html>
