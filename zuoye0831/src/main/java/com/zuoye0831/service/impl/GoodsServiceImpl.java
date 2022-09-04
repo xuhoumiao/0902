@@ -65,6 +65,7 @@ public class GoodsServiceImpl implements GoodsService {
         MyPage<Goods> myPage=new MyPage<>();
         myPage.setCurrent(pno);
         myPage.setSize(psize);
+
         myPage.setTotal(gm.selectCount(null));
         QueryWrapper<Goods> qw = new QueryWrapper<>();
         if(cid !=null&& cid.equals("")){
