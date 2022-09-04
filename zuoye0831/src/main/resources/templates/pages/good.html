@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>货物信息</title>
+</head>
+<body>
+<select name="brand" id="brand">
+    <option value="0">请选择</option>
+    <option th:each="b:${brand}" th:value="${b.bid}" >
+        [[${b.bname}]]
+    </option>
+</select>
+<select name="classify" id="classify">
+    <option value="0">请选择</option>
+    <option th:each="classify:${classifys}" th:value="${classify.cid}">
+        [[${classify.cname}]]
+    </option>
+</select>
+关键字<input type="text" id="x"><button id="ss">搜索</button>
+<table>
+    <tr>
+        <th>编号</th>
+        <th> <a th:href="|/empallPage2|">商品名称</a></th>
+        <th>货号</th>
+        <th>价格</th>
+        <th>上架</th>
+        <th>精品</th>
+        <th>新品</th>
+        <th>热销</th>
+        <th>点击次数</th>
+        <th>库存</th>
+    </tr>
+    <tr th:each="goods:${info.list}">
+        <td><input type="checkbox">[[${goods.gid}]]</td>
+        <td>[[${goods.gname}]]</td>
+        <td>[[${goods.number}]]</td>
+        <td>[[${goods.price}]]</td>
+        <td><img th:src="${goods.grounding== 0 ? '/img/cuo.png': '/img/dui.png'}"></td>
+        <td><img th:src="${goods.article== 0 ? '/img/cuo.png': '/img/dui.png'}"></td>
+        <td><img th:src="${goods.neww== 0 ? '/img/cuo.png': '/img/dui.png'}"></td>
+        <td><img th:src="${goods.hot== 0 ? '/img/cuo.png': '/img/dui.png'}"></td>
+<!--        <td>[[${goods.grounding}]]</td>-->
+<!--        <td>[[${goods.article }]]</td>-->
+<!--        <td>[[${goods.neww }]]</td>-->
+<!--        <td>[[${goods.hot}]]</td>-->
+        <td>[[${goods.click}]]</td>
+        <td>[[${goods.stock}]]</td>
+    </tr>
+</table>
+<div>
+    <span class="info1">
+       共[[${info.total}]]条记录， 共[[${info.pages}]]页， 当前第[[${info.current}]]页
+    </span>
+    <span class="info2">
+      <select id="psize">
+        <option value="3" th:selected="${info.size == 3}">每页3条</option>
+         <option value="5" th:selected="${info.size == 5}">每页5条</option>
+         <option value="10" th:selected="${info.size == 10}">每页10条</option>
+         <option value="15" th:selected="${info.size == 15}">每页15条</option>
+      </select>
+    </span>
+    <span class="info2" th:if="${info.prepage != 0}">
+      <a th:href="|/empallPage?pno=${info.prepage }&psize=${info.size}|">上一页</a>
+    </span>
+    <span class="info2" th:each="index:${#numbers.sequence(1, info.pages)}">
+      <a th:href="|/empallPage?pno=${index}&psize=${info.size}|">
+          [[${index}]]
+      </a>
+    </span>
+    <span class="info2" th:if="${info.nextpage != 0}">
+      <a th:href="|/empallPage?pno=${info.nextpage}&psize=${info.size}|">下一页</a>
+    </span>
+</div>
+
+<script>
+    document.querySelector("#psize").onchange = function(){
+        location.href="/empallPage?psize="+this.value;
+    }
+    document.querySelector("#ss").onclick = function(){
+        var classify=document.getElementById("classify").value;
+        var brand=document.getElementById("brand").value;
+        var x=document.getElementById("x").value;
+        location.href="/empallPage?cid="+classify+"&bid="+brand+"&x="+x;
+    }
+</script>
+</body>
+</html>
