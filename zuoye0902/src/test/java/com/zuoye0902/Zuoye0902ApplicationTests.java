@@ -9,5 +9,7 @@ class Zuoye0902ApplicationTests {
     @Test
     void contextLoads() {
     }
-
+    @Test
+    void contextLoads2() {
+    }
 }
